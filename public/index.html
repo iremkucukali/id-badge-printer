@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
+    <title>ID Badge Printer</title>
+    <style type="text/css">
+        .printer {
+            background: #fff;
+        }
+
+        page[size="A4"] {
+            width: 9.1cm;
+            height: 12.8cm;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @media print {
+            .printer, page[size="A4"] {
+                margin: 0;
+                box-shadow: 0;
+                -webkit-print-color-adjust: exact;
+                page-break-before: always;
+            }
+        }
+
+        @font-face {
+            font-family: manbow;
+            src: url('/public/fonts/manbow-solid.ttf');
+        }
+
+        @font-face {
+            font-family: bigsky;
+            src: url('/public/fonts/BigSky.ttf');
+        }
+
+    </style>
+    <script src="js/prefixfree.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <script src="lib/angular.js"></script>
+    <script src="lib/angular-materialize.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/printer.js"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+</head>
+<body ng-controller="PrinterCtrl">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<div class="row">
+    <nav class="no-print">
+        <div class="nav-wrapper">
+            <img style="height: inherit;" src="./images/identification.png">
+            <a href="#" class="brand-logo">ID Badge Printer</a>
+        </div>
+    </nav>
+    <div class="row" style="margin-top: 1%" ng-hide="hideForm">
+        <form class="col s12  m8 x17 offset-xl1">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="event_name" type="text" class="validate" ng-model="event.title">
+                    <label for="event_name">Event Title</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="event_date" type="text" class="validate" ng-model="event.date">
+                    <label for="event_date">Event Date</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="place" type="text" class="validate" ng-model="event.place">
+                    <label for="place">Event Place</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="background" type="text" class="validate" ng-model="backgroundImage">
+                    <label for="background">Backgrounf Image URL for ID Badges</label>
+                    <span class="helper-text">Example: https://i.ibb.co/sRZmnFx/pattern.png</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="logo" class="validate" type="text" ng-model="event.orgLogo">
+                    <label for="logo">URL for Logo of Your Organization</label>
+                    <span class="helper-text">Recommended height: around 80px. Otherwise you can arrange it by using your browser's developer console.</span>
+                    <span class="helper-text">Example: https://i.ibb.co/zPvLxxR/unnamed-1.png</span>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea class="materialize-textarea" type="text" ng-model="registrations"></textarea>
+                    <label for="logo">Registrations List JSON file</label>
+                    <span class="helper-text">format: [{"name": "irem", "organization": "company", "title": "developer"}]</span>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action" ng-click="createBadges()">Create ID
+                Badges
+            </button>
+        </form>
+    </div>
+</div>
+
+<div style="font-family:Arial" class="hbox hbox-auto-xs hbox-auto-sm row" ng-init="app.settings.asideFolded = true;
+    app.settings.asideDock = true;" ng-hide="hideBadges">
+
+    <div class="col s12  m8 x17 offset-xl1">
+
+        <p class="no-print">Printing this page and choosing "Save as PDF" in your browser would give you a pdf file with ID badges in
+            separate pages.</p>
+
+        <div class="printer">
+
+            <page ng-repeat="reg in event.registrations" style="text-align: center;" ng-style="background" size="A4">
+                <div style="padding-top:5em; ">
+                    <p class="heading" ng-style="customFont">{{event.title}}</p>
+                    <p class="heading5">{{event.date}}</p>
+                    <p class="heading5">{{event.place}}</p>
+                    <div style="width:80%;height:120px;background:white;margin:auto;margin-bottom:3%">
+                        <p style="padding-top:4%">{{ reg.name }}</p>
+                        <p>{{ reg.organization }}</p>
+                        <p>{{ reg.title }}</p>
+                    </div>
+                    <div><img ng-src="{{event.orgLogo}}"></div>
+                </div>
+                <div style="height:2px"></div>
+            </page>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

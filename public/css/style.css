@@ -1,0 +1,25 @@
+@font-face {
+    font-family: manbow;
+    src: url('../fonts/manbow-solid.ttf');
+}
+body {
+  margin-top: 0;
+}
+.heading {
+    /*font-family: manbow;*/
+    color: white;
+    font-size: 2em;
+}
+
+.heading5 {
+    color: white;
+    font-size: 0.83em;
+}
+
+@media print
+{
+    .hiddendiv, .common, .no-print
+    {
+        display: none !important;
+    }
+}
