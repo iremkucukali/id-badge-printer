@@ -12,21 +12,4 @@ app.controller("PrinterCtrl", ["$scope", "$http", "$filter", "$rootScope", funct
         $scope.hideBadges = false;
     };
 
-    /*$scope.registrations = [
-        {
-            "name": "İrem Küçükali",
-            "organization": "beraber",
-            "title": "cofounder"
-        }, {
-            "name": "Hüseyin Küçükali",
-            "organization": "beraber",
-            "title": "cofounder"
-        }, {
-            "name": "Elif Okur",
-            "organization": "beraber",
-            "title": "cofounder"
-        }
-    ];*/
-
-
 }]);
